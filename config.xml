@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <output>Comparisons</output>
+
+    <!-- ************************ CSV Comparisons ************************ -->
+    <comparison filename="File_A">
+        <enabled>true</enabled>
+        <left>files\file_A_new.csv</left>
+        <right>files\file_A_old.csv</right>
+        <separator>;</separator>
+        <columns>
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
+            <column name="C" reference="True" />
+        </columns>
+    </comparison>
+
+    <comparison filename="File_B">
+        <enabled>false</enabled>
+        <left>files\file_B_new.csv</left>
+        <right>files\file_B_old.csv</right>
+        <separator>;</separator>
+        <columns>
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
+            <column name="C" reference="True" />
+        </columns>
+    </comparison>
+
+    <comparison filename="File_C">
+        <enabled>false</enabled>
+        <left>files\file_C_new.csv</left>
+        <right>files\file_C_old.csv</right>
+        <separator>;</separator>
+        <columns>
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
+            <column name="C" reference="True" />
+        </columns>
+    </comparison>
+
+    <comparison filename="File_D">
+        <enabled>false</enabled>
+        <left>files\file_D_new.csv</left>
+        <right>files\file_D_old.csv</right>
+        <separator>;</separator>
+        <columns>
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
+            <column name="C" reference="True" />
+        </columns>
+    </comparison>
+</Config>

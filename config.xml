@@ -4,9 +4,9 @@
 
     <defaults>
         <tolerances>
-            <column name=".*" tolerance="0.05" tolerance_mode="Rel" />
-            <column name=".%Price" tolerance="0.05" tolerance_mode="Rel" />
-            <column name="TOTAL" tolerance="1.0" tolerance_mode="Abs" />
+            <!-- <column name=".*" tolerance="0.05" tolerance_mode="Rel"/> -->
+            <column name=".%Price" tolerance="0.05" tolerance_mode="Rel"/>
+            <column name="TOTAL" tolerance="1.0" tolerance_mode="Abs"/>
         </tolerances>
     </defaults>
 
@@ -17,11 +17,11 @@
         <right>files\file_A_old.csv</right>
         <separator>,</separator>
         <columns>
-            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
-            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
-            <column name="C" reference="True" />
-            <column name="D" tolerance_mode="Rel" reference="True" ignore="False" />
-            <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
+            <column name="A" reference="True"/>
+            <column name="B" reference="True"/>
+            <column name="C" reference="True"/>
+            <column name="D" tolerance_mode="Rel" tolerance="0.1" ignore="False" count_difference="True"/>
+            <column name="E" tolerance_mode="Abs" tolerance="5.0" count_difference="True"/>
         </columns>
     </comparison>
 
@@ -31,10 +31,10 @@
         <right>files\file_B_old.csv</right>
         <separator>,</separator>
         <columns>
-            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
-            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
-            <column name="C" reference="True" />
-            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True"/>
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True"/>
+            <column name="C" reference="True"/>
+            <column name="D" tolerance_mode="Rel" reference="True"/>
             <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
@@ -45,10 +45,10 @@
         <right>files\file_C_old.csv</right>
         <separator>,</separator>
         <columns>
-            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
-            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
-            <column name="C" reference="True" />
-            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True"/>
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True"/>
+            <column name="C" reference="True"/>
+            <column name="D" tolerance_mode="Rel" reference="True"/>
             <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
@@ -59,10 +59,10 @@
         <right>files\file_D_old.csv</right>
         <separator>,</separator>
         <columns>
-            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
-            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
-            <column name="C" reference="True" />
-            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True"/>
+            <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True"/>
+            <column name="C" reference="True"/>
+            <column name="D" tolerance_mode="Rel" reference="True"/>
             <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>

@@ -81,14 +81,14 @@ class Comparison:
         self.log.logger.info(f'The number of lines in the right file is {len(self.df_right)}')
 
         start = time.perf_counter()
-        df_merge = pd.merge(self.df_left, self.df_right, non='outer', on=self.configuration['references'],
+        df_merge = pd.merge(self.df_left, self.df_right, how='outer', on=self.configuration['references'],
                             sort=True, indicator=True)
 
         if max(len(self.df_left), len(self.df_right)) != len(df_merge):
             self.log.logger.warning(f'Length of input and merged tables differs!')
             self.log.logger.warning(
                 f'Left = {len(self.df_left)}, right = {len(self.df_right)}, merged = {len(df_merge)}')
-        self.log.logger.info(f'Nerging files finished, elapsed time: {time.perf_counter() - start:0.2f}s')
+        self.log.logger.info(f'Merging files finished, elapsed time: {time.perf_counter() - start:0.2f}s')
 
         self.summary['lines'].update({'merged': len(df_merge)})
 
@@ -96,8 +96,8 @@ class Comparison:
 
     def compare_reports(self):
         """
-        At this point the two reports are sorted and merged in the "df_merge" ddtdfrdme.
-        For the comparison, the left and right columns need to he picked up from merged tdhle.
+        At this point the two reports are sorted and merged in the "df_merge" dataframe.
+        For the comparison, the left and right columns need to he picked up from merged table.
         """
         columns = []
         columns_compare_left = []
@@ -129,8 +129,9 @@ class Comparison:
         for i in range(len(right_header)):
             right_header[i] = right_header[i][:-2]
 
-        df_left_compare.set_axis(left_header, axis=1, inplace=True)
-        df_right_compare.set_axis(right_header, axis=1, inplace=True)
+        # df_left_compare.set_axis(left_header, axis=1, inplace=True)
+        df_left_compare = df_left_compare.set_axis(left_header, axis=1)
+        df_right_compare = df_right_compare.set_axis(right_header, axis=1)
 
         start = time.perf_counter()
         df_comparison = df_left_compare.compare(df_right_compare)
@@ -147,7 +148,7 @@ class Comparison:
             right_lines = self.df_merge._merge.value_counts()['right_only']
             self.summary['merge_match'].update({'unmatched_right': right_lines})
 
-        self.log.logger.inf0(f'Dataframes comparison finished, elapsed time: {time.perf_counter() - start:0.2f}s')
+        self.log.logger.info(f'Dataframes comparison finished, elapsed time: {time.perf_counter() - start:0.2f}s')
 
         return df_comparison, columns
 
@@ -167,7 +168,7 @@ class Comparison:
                 if name_match:
                     if name_match.group() == column:
                         if column not in tolerances:
-                            self.configuration['tolerances'].Update(
+                            self.configuration['tolerances'].update(
                                 {column: {'tolerance': float(default_tolerance['tolerance']),
                                           'tolerance_mode': default_tolerance['tolerance_mode']}})
                             self.log.logger.info(f'\tTolerance for column updated: {column.ljust(10)}\t\t'
@@ -190,7 +191,7 @@ class Comparison:
                 has_tolerance = False
 
             tolerance_check.append({'has_tolerance': has_tolerance,
-                                    'indexes': [1, i + 1],
+                                    'indexes': [i, i + 1],
                                     'unique_column': unique_column})
             unique_column += 1
 
@@ -208,7 +209,7 @@ class Comparison:
                 drop = [False] * len(tolerance_check)
                 for check in tolerance_check:
                     if pd.isna(line[check['indexes'][0]]) and pd.isna(line[check['indexes'][1]]):
-                        drop[check['Unique_column']] = True
+                        drop[check['unique_column']] = True
                         continue
                     column_name = line.index[check['indexes'][0]][0]
                     diffs_counter[column_name]['absolute'] += 1
@@ -220,14 +221,14 @@ class Comparison:
                                 if self.configuration['tolerances'][column_name]['tolerance_mode'].lower() == 'abs':
                                     if abs(left_val - right_val) <= \
                                             self.configuration['tolerances'][column_name]['tolerance']:
-                                        drop[check['Unique_column']] = True
+                                        drop[check['unique_column']] = True
                                         diffs_counter[column_name]['in_tolerance'] += 1
                                 elif self.configuration['tolerances'][column_name]['tolerance_mode'].lower() == 'rel':
                                     # check the dividing by zero!
                                     if right_val != 0:
                                         if abs(left_val - right_val) / abs(right_val) <= \
                                                 self.configuration['tolerances'][column_name]['tolerance']:
-                                            drop[check['Unique_column']] = True
+                                            drop[check['unique_column']] = True
                                             diffs_counter[column_name]['in_tolerance'] += 1
                                 else:
                                     raise ValueError(f'Unknown parameter for "tolerance mode": '
@@ -317,7 +318,7 @@ class Comparison:
                                            r_end=self.configuration["remove_end"],
                                            ignore_r=self.configuration["ignore_rows"])
         else:
-            df_left = pd.read_csv(self.configuration["left"], seo=self.configuration["separator"],
+            df_left = pd.read_csv(self.configuration["left"], sep=self.configuration["separator"],
                                   header=self.configuration["header"],
                                   names=self.configuration['header_names'], encoding='unicode_escape', engine='python',
                                   skiprows=self.configuration["ignore_rows"])
@@ -337,7 +338,7 @@ class Comparison:
             df_right = pd.read_csv(self.configuration["right"], sep=self.configuration["separator"],
                                    header=self.configuration["header"],
                                    names=self.configuration['header_names'], encoding='unicode_escape', engine='python',
-                                   skiorons=self.configuration["ignore_rows"])
+                                   skiprows=self.configuration["ignore_rows"])
 
             if len(self.configuration['drop_duplicates']) > 0:
                 df_right.drop_duplicates(subset=self.configuration['drop_duplicates'], inplace=True)

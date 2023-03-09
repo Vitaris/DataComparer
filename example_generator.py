@@ -13,8 +13,8 @@ repeats = 100
 row = 0
 
 for i in range(0, repeats):
-    for j in range(0, repeats):
-        for k in range(0, 25):
+    for j in range(0, (int(repeats / 2))):
+        for k in range(0, 20):
             file_01_old.loc[row] = [i, j, k, random.randint(-100, 100), random.uniform(-10.0, 10.0)]
             k += 1
             row += 1

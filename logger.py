@@ -7,7 +7,7 @@ class Logger:
     def __init__(self, logfile_dir_path, name, file_name=None):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.DEBUG)
-        formatter_default = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s', datefmt='%m/%d/%Y %H:%N:%S')
+        formatter_default = logging.Formatter('[%(asctime)s] %(levelname)s: %(message)s', datefmt='%m/%d/%Y %H:%M:%S')
 
         cmd_hdl = logging.StreamHandler()
         cmd_hdl.setFormatter(formatter_default)

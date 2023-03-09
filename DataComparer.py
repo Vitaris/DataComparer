@@ -13,7 +13,7 @@ class Comparer:
     def __init__(self):
         xml_file = sys.argv[1]
         self.xml_config = Configuration.get_xml_comparisons(xml_file)
-        self.export_folder = f'{self.xml_config["output"]}\\{datetime.today().strftime("%Y%m%d_%H%H%S")}'
+        self.export_folder = f'{self.xml_config["output"]}\\{datetime.today().strftime("%Y%m%d_%H%M%S")}'
         self.sum_log = Logger(self.export_folder + '\\' + 'log', '_compare', file_name='_compare')
         self.results = self.distribute_comparisons()
         self.generate_summary()
@@ -53,8 +53,8 @@ class Comparer:
         Creates the pool of workers depending
         on the current number of logical cpus
         """
-
         with Pool(os.cpu_count()) as p:
+        # with Pool(1) as p:
             return p.map(self.process_comparison, self.xml_config['comparisons'])
 
     def generate_summary(self):

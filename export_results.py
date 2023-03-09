@@ -127,43 +127,43 @@ class ExportResults:
                             or \
                             str(comparison.df_merge.columns[pair[0]]).endswith('_y'):
                         tolerance_name = comparison.df_merge.columns[pair[0]][:-2]
-                else:
-                    tolerance_name = comparison.df_merge.columns[pair[0]]
-                tolerance_config = comparison.configuration['tolerances']
+                    else:
+                        tolerance_name = comparison.df_merge.columns[pair[0]]
+                    tolerance_config = comparison.configuration['tolerances']
 
-                # Get tolerance value and mode
-                if tolerance_config.get(tolerance_name):
-                    tolerance_value = tolerance_config[tolerance_name]['tolerance']
-                    tolerance_mode = tolerance_config[tolerance_name]['tolerance_mode']
-                else:
-                    tolerance_value = 0.0
-                    tolerance_mode = 'Abs'
+                    # Get tolerance value and mode
+                    if tolerance_config.get(tolerance_name):
+                        tolerance_value = tolerance_config[tolerance_name]['tolerance']
+                        tolerance_mode = tolerance_config[tolerance_name]['tolerance_mode']
+                    else:
+                        tolerance_value = 0.0
+                        tolerance_mode = 'Abs'
 
-                # Check for difference respecting the tolerance
-                if tolerance_mode.lower() == 'abs':
-                    if abs(left_value - right_value) <= tolerance_value:
-                        match = True
-                elif tolerance_mode.lower() == 'rel':
-                    # check the dividing by zero!
-                    if right_value == 0:
-                        match = False
-                    elif abs(left_value - right_value) / abs(right_value) <= tolerance_value:
-                        match = True
+                    # Check for difference respecting the tolerance
+                    if tolerance_mode.lower() == 'abs':
+                        if abs(left_value - right_value) <= tolerance_value:
+                            match = True
+                    elif tolerance_mode.lower() == 'rel':
+                        # check the dividing by zero!
+                        if right_value == 0:
+                            match = False
+                        elif abs(left_value - right_value) / abs(right_value) <= tolerance_value:
+                            match = True
 
-            if match:
-                results_sheet.write(row, cell, left_value)
-                results_sheet.write(row, cell + 1, right_value, self.format_second_cell)
-            else:
-                results_sheet.write(row, cell, left_value, self.format_fail)
-                results_sheet.write(row, cell + 1, right_value, self.format_fail_second_cell)
-            cell += 2
-            # Count difference if configured
-            if comparison.columns[pair[0]] in add_differences:
-                if is_numeric_dtype(left_value) and is_numeric_dtype(right_value):
-                    results_sheet.write(row, cell, abs(left_value - right_value), self.format_second_cell)
+                if match:
+                    results_sheet.write(row, cell, left_value)
+                    results_sheet.write(row, cell + 1, right_value, self.format_second_cell)
                 else:
-                    results_sheet.write(row, cell, 0, self.format_second_cell)
-                cell += 1
+                    results_sheet.write(row, cell, left_value, self.format_fail)
+                    results_sheet.write(row, cell + 1, right_value, self.format_fail_second_cell)
+                cell += 2
+                # Count difference if configured
+                if comparison.columns[pair[0]] in add_differences:
+                    if is_numeric_dtype(left_value) and is_numeric_dtype(right_value):
+                        results_sheet.write(row, cell, abs(left_value - right_value), self.format_second_cell)
+                    else:
+                        results_sheet.write(row, cell, 0, self.format_second_cell)
+                    cell += 1
             # Add the presence indicator(left, right, both) at the end of row
             results_sheet.write(row, cell, comparison.df_merge.iloc[diff, -1])
 
@@ -198,11 +198,11 @@ class ExportResults:
         row = 0
         if not first_cell_empty:
             sheet.write(row, cell, first_cell, self.format_header)
-            sheet.set_column(cell, cell, self.limit(len(first_cell) + 4, minimim=8))
+            sheet.set_column(cell, cell, self.limit(len(first_cell) + 4, minimum=8))
         row += 1
         for header_element in header:
             sheet.write(row, cell, header_element)
-            sheet.set_column(cell, cell, self.limit(len(header_element) + 4, mininin=8))
+            sheet.set_column(cell, cell, self.limit(len(header_element) + 4, minimum=8))
             row += 1
 
         return row
@@ -249,18 +249,18 @@ class ExportResults:
             if summary['configuration']['tolerances'].get(column):
                 sheet.write(row, cell, summary['configuration']['tolerances'][column]['tolerance_mode'])
                 row += 1
-            row = 0
-            cell += 1
-            sheet.write(row, cell, "Tolerance", self.format_header)
-            sheet.set_column(cell, cell, 16)
-            sheet.write_comment(row, cell, 'Tolerance value')
-            row += 1
+        row = 0
+        cell += 1
+        sheet.write(row, cell, "Tolerance", self.format_header)
+        sheet.set_column(cell, cell, 16)
+        sheet.write_comment(row, cell, 'Tolerance value')
+        row += 1
 
-            for column in column_names:
-                if summary['configuration']['tolerances'].get(column):
-                    sheet.write(row, cell, summary['configuration']['tolerances'][column]['tolerance'])
-                    row += 1
-            sheet.freeze_panes(1, 0)
+        for column in column_names:
+            if summary['configuration']['tolerances'].get(column):
+                sheet.write(row, cell, summary['configuration']['tolerances'][column]['tolerance'])
+                row += 1
+        sheet.freeze_panes(1, 0)
 
     def create_summary(self, summary_dict):
         """
@@ -278,11 +278,10 @@ class ExportResults:
             {'column_name': 'Status', 'comment': '0 - Success\n100 - Failed'},
             {'column_name': 'Diffs Total', 'comment': 'Total number of differences, no tolerance applied'},
             {'column_name': 'Diffs in Tolerance', 'comment': 'The number of differences that are within tolerance'},
-            {'column_name': 'Diffs out of Tolerance',
-             'comment': 'The number of differences  that exceed the tolerance '},
+            {'column_name': 'Diffs out of Tolerance', 'comment': 'The number of differences that exceed the tolerance'},
             {'column_name': 'Line count left', 'comment': 'The number of lines found in the report'},
             {'column_name': 'Line count right', 'comment': 'The number of lines found in the report'},
-            {'column_name': 'Natch', 'width': 12, 'comment': 'Lines occurring in both compared reports'},
+            {'column_name': 'Match', 'width': 12, 'comment': 'Lines occurring in both compared reports'},
             {'column_name': 'Left unmatched', 'comment': 'Lines occurring only in the left report'},
             {'column_name': 'Right unmatched', 'comment': 'Lines occurring only in the right report'},
             {'column_name': 'Comparison time (s)'},
@@ -392,7 +391,7 @@ class ExportResults:
 
             row += 1
 
-        sh['Summary_Sheet'].autofilter(f'A1:Jl')
+        sh['Summary_Sheet'].autofilter(f'A1:J1')
         sh['Summary_Sheet'].freeze_panes(1, 0)
 
     def create_sheets(self, summary_dict):

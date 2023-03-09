@@ -2,52 +2,69 @@
 <Config>
     <output>Comparisons</output>
 
+    <defaults>
+        <tolerances>
+            <column name=".*" tolerance="0.05" tolerance_mode="Rel" />
+            <column name=".%Price" tolerance="0.05" tolerance_mode="Rel" />
+            <column name="TOTAL" tolerance="1.0" tolerance_mode="Abs" />
+        </tolerances>
+    </defaults>
+
     <!-- ************************ CSV Comparisons ************************ -->
-    <comparison filename="File_A">
+    <comparison file_name="File_A">
         <enabled>true</enabled>
         <left>files\file_A_new.csv</left>
         <right>files\file_A_old.csv</right>
-        <separator>;</separator>
+        <separator>,</separator>
         <columns>
             <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
             <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
             <column name="C" reference="True" />
+            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
 
-    <comparison filename="File_B">
-        <enabled>false</enabled>
+    <comparison file_name="File_B">
+        <enabled>true</enabled>
         <left>files\file_B_new.csv</left>
         <right>files\file_B_old.csv</right>
-        <separator>;</separator>
+        <separator>,</separator>
         <columns>
             <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
             <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
             <column name="C" reference="True" />
+            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
 
-    <comparison filename="File_C">
-        <enabled>false</enabled>
+    <comparison file_name="File_C">
+        <enabled>true</enabled>
         <left>files\file_C_new.csv</left>
         <right>files\file_C_old.csv</right>
-        <separator>;</separator>
+        <separator>,</separator>
         <columns>
             <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
             <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
             <column name="C" reference="True" />
+            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
 
-    <comparison filename="File_D">
-        <enabled>false</enabled>
+    <comparison file_name="File_D">
+        <enabled>true</enabled>
         <left>files\file_D_new.csv</left>
         <right>files\file_D_old.csv</right>
-        <separator>;</separator>
+        <separator>,</separator>
         <columns>
             <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
             <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
             <column name="C" reference="True" />
+            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
+
 </Config>

@@ -20,7 +20,7 @@
             <column name="A" tolerance="0.5" tolerance_mode="Abs" reference="True" />
             <column name="B" tolerance="50.0" tolerance_mode="Abs" reference="True" />
             <column name="C" reference="True" />
-            <column name="D" tolerance_mode="Rel" reference="True" />
+            <column name="D" tolerance_mode="Rel" reference="True" ignore="False" />
             <column name="E" tolerance_mode="Abs" reference="True" count_difference="True"/>
         </columns>
     </comparison>
